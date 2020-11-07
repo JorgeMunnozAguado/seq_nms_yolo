@@ -1,0 +1,4 @@
+*.pyc
+tiny-yolo-voc.weights
+yolo.weights
+obj/
