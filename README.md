@@ -14,7 +14,7 @@ This project combines **YOLOv2**([reference](https://arxiv.org/abs/1506.02640)) 
     ```
 1. While downloading the previous files create a Conda enviroment.
     ```
-    conda create --name YOLOv2 python=2.7
+    conda create -y --name YOLOv2 python=2.7
     conda activate YOLOv2
     conda install -y -c conda-forge opencv
     conda install -y matplotlib Pillow scipy tensorflow
@@ -34,8 +34,9 @@ This project combines **YOLOv2**([reference](https://arxiv.org/abs/1506.02640)) 
 1. In the **video folder**, run `python video2img.py -i input_file` and then run `python get_pkllist.py`.
 1. Return to **root floder** and run `python yolo_seqnms.py` to generate output images in `video/output` folder.
     > From the `label_map_util.py` file in original repository we need to change `tf.gfile.GFil` by `tf.io.gfile.GFile` as the previous function is deprecated.
-1. If you want to reconstruct a video from these output images, you can go to the **video folder** and run `python img2video.py -i output`
+1. If you want to reconstruct a video from these output images, you can go to the **video folder** and run `python img2video.py -i output`.
     > From the `img2video.py` file in original repository we changed `cv2.cv.CV_FOURCC(*'mp4v')` by `cv2.VideoWriter_fourcc(*'mp4v')` as the previous functions was not able.
+    > In the same file we commented `cv2.destroyAllWindows()` function as `libgtk2.0-dev` is not currently installed.
 1. At last you will see `output.mp4` file with detection results in `video/` folder.
 
 ## Reference
