@@ -1,4 +1,9 @@
 *.pyc
+*.avi
+*.mp4
+video/output/
+video/input/
+video/pkllist.txt
 tiny-yolo-voc.weights
 yolo.weights
 obj/
