@@ -199,11 +199,13 @@ def deleteLink(dets,links, rootindex, maxpath,thesh):
                     if delete_ind in priorbox:
                         priorbox.remove(delete_ind)
 
-def dsnms(res):
+def dsnms(res, nms_flag=True):
     dets=createInputs(res)
     links=createLinks(dets)
     maxPath(dets,links)
-    NMS(dets)
+
+    if nms_flag:  NMS(dets)
+
     boxes=[[] for i in dets[0]]
     classes=[[] for i in dets[0]]
     scores=[[] for i in dets[0]]

@@ -10,7 +10,7 @@ This project combines **YOLOv2**([reference](https://arxiv.org/abs/1506.02640)) 
 ```
 If we have NVIDIA GPU:
   GPU=1
-  export PATH=/usr/local/cuda-10.1/bin:$PATH
+  modify /usr/local/cuda-10.1/bin with your cuda version
 If not: GPU=0
 
 IF we have OpenCV install on the computer: OpenCV=1
@@ -28,14 +28,33 @@ If you don't want to use it OpenCV=0
     conda create --name YOLOv2 python=2.7
     conda activate YOLOv2
     conda install -y -c menpo opencv
+    # conda install -y -c conda-forge opencv
     conda install -y matplotlib Pillow scipy tensorflow=1.15
     conda install -y -c conda-forge tf_object_detection
     ```
-1. Copy a video file to the video folder. We added some examples videos: `v_HighJump_g03_c04.avi`, `v_MilitaryParade_g09_c03.avi`, `v_SalsaSpin_g03_c02.avi`;
-1. In the **video folder**, run `python video2img.py -i input_file` and then `python get_pkllist.py`;
-1. Return to **root floder** and run `python yolo_seqnms.py` to generate output images in `video/output`;
-1. If you want to reconstruct a video from these output images, you can go to the **video folder** and run `python img2video.py -i output`
+1. Copy a video file to the video folder. We added some examples videos: `v_HighJump_g03_c04.avi`, `v_MilitaryParade_g09_c03.avi`, `v_SalsaSpin_g03_c02.avi`
+1. In the **video folder**, run `python video2img.py -i input_file` and then `python get_pkllist.py`
+1. Return to **root floder** and run `python yolo_seqnms.py` to generate output images in `video/output`
+```
+cambiamos:
+lib = CDLL("libdarknet.so", RTLD_GLOBAL)
 
+por:
+lib = CDLL(os.path.join(os.getcwd(), "libdarknet.so"), RTLD_GLOBAL)
+
+e importamos: import os
+
+-------
+
+OSError: libcudart.so.10.1: cannot open shared object file: No such file or directory
+
+```
+1. If you want to reconstruct a video from these output images, you can go to the **video folder** and run `python img2video.py -i output`
+```
+cv2.cv.CV_FOURCC(*'mp4v')
+
+cv2.VideoWriter_fourcc(*'mp4v')
+```
 And you will see `output.mp4` file with detection results in `video/` folder.
 
 ## Reference
