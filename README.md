@@ -6,18 +6,7 @@ This project combines **YOLOv2**([reference](https://arxiv.org/abs/1506.02640)) 
 
 ## Steps to execute
 
-1. `make` the project
-```
-If we have NVIDIA GPU:
-  GPU=1
-  modify /usr/local/cuda-10.1/bin with your cuda version
-If not: GPU=0
 
-IF we have OpenCV install on the computer: OpenCV=1
-IF you don't have it and you want to install it: read more in https://docs.opencv.org/3.3.1/d7/d9f/tutorial_linux_install.html
-If you don't want to use it OpenCV=0
-
-```
 1. Download `yolo.weights` and `tiny-yolo.weights` by running
     ```
     wget https://pjreddie.com/media/files/yolo.weights
@@ -27,35 +16,27 @@ If you don't want to use it OpenCV=0
     ```
     conda create --name YOLOv2 python=2.7
     conda activate YOLOv2
-    conda install -y -c menpo opencv
-    # conda install -y -c conda-forge opencv
-    conda install -y matplotlib Pillow scipy tensorflow=1.15
+    conda install -y -c conda-forge opencv
+    conda install -y matplotlib Pillow scipy tensorflow
     conda install -y -c conda-forge tf_object_detection
+    ```   
+1. Make sure that paths are correctly setted.
     ```
-1. Copy a video file to the video folder. We added some examples videos: `v_HighJump_g03_c04.avi`, `v_MilitaryParade_g09_c03.avi`, `v_SalsaSpin_g03_c02.avi`
-1. In the **video folder**, run `python video2img.py -i input_file` and then `python get_pkllist.py`
-1. Return to **root floder** and run `python yolo_seqnms.py` to generate output images in `video/output`
-```
-cambiamos:
-lib = CDLL("libdarknet.so", RTLD_GLOBAL)
+    export PATH=/usr/local/cuda-10.1/bin:$PATH
+    ```
+1. `make` the project.
 
-por:
-lib = CDLL(os.path.join(os.getcwd(), "libdarknet.so"), RTLD_GLOBAL)
+    If you have a NVIDIA GPU you could set `GPU=1`. Also you might need to change the path of CUDA in lines `49 & 51`. If don't have GPU just write `GPU=0`.
 
-e importamos: import os
+    If you want to use OpenCV set the flag `OpenCV=1`. If you want to use it but don't know how installed https://docs.opencv.org/3.3.1/d7/d9f/tutorial_linux_install.html. If you don't want to use it just set `OpenCV=0`.
 
--------
-
-OSError: libcudart.so.10.1: cannot open shared object file: No such file or directory
-
-```
+1. Copy a video file to the **video folder**. _(We added next videos as examples: `v_HighJump_g03_c04.avi`, `v_MilitaryParade_g09_c03.avi`, `v_SalsaSpin_g03_c02.avi`)_
+1. In the **video folder**, run `python video2img.py -i input_file` and then run `python get_pkllist.py`.
+1. Return to **root floder** and run `python yolo_seqnms.py` to generate output images in `video/output` folder.
+    > From the `label_map_util.py` file in original repository we need to change `tf.gfile.GFil` by `tf.io.gfile.GFile` as the previous function is deprecated.
 1. If you want to reconstruct a video from these output images, you can go to the **video folder** and run `python img2video.py -i output`
-```
-cv2.cv.CV_FOURCC(*'mp4v')
-
-cv2.VideoWriter_fourcc(*'mp4v')
-```
-And you will see `output.mp4` file with detection results in `video/` folder.
+    > From the `img2video.py` file in original repository we changed `cv2.cv.CV_FOURCC(*'mp4v')` by `cv2.VideoWriter_fourcc(*'mp4v')` as the previous functions was not able.
+1. At last you will see `output.mp4` file with detection results in `video/` folder.
 
 ## Reference
 
