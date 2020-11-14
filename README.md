@@ -39,6 +39,12 @@ This project combines **YOLOv2**([reference](https://arxiv.org/abs/1506.02640)) 
     > In the same file we commented `cv2.destroyAllWindows()` function as `libgtk2.0-dev` is not currently installed.
 1. At last you will see `output.mp4` file with detection results in `video/` folder.
 
+## Use Yolov2 without Seq-NMS
+
+In order to deactivate Seq-NMS post-processing add to the `python yolo_seqnms.py` execution `--nms 0` flag.
+
 ## Reference
 
 This project copies lots of code from [darknet](https://github.com/pjreddie/darknet) , [Seq-NMS](https://github.com/lrghust/Seq-NMS) and  [models](https://github.com/tensorflow/models).
+
+Videos come from [UCF-101](https://www.crcv.ucf.edu/data/UCF101.php) dataset.
