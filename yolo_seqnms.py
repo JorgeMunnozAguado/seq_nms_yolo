@@ -4,7 +4,7 @@ import cv2
 import time
 import copy
 import cPickle as pickle
-import os, sys
+import os, sys, argparse
 from matplotlib import pyplot as plt
 from PIL import Image
 import scipy.misc
@@ -201,10 +201,13 @@ def deleteLink(dets,links, rootindex, maxpath,thesh):
 
 def dsnms(res, nms_flag=True):
     dets=createInputs(res)
-    links=createLinks(dets)
-    maxPath(dets,links)
+    
+    if nms_flag:
 
-    if nms_flag:  NMS(dets)
+        links=createLinks(dets)
+        maxPath(dets,links)
+
+        NMS(dets)
 
     boxes=[[] for i in dets[0]]
     classes=[[] for i in dets[0]]
@@ -225,7 +228,7 @@ def dsnms(res, nms_flag=True):
     for cls_id, det_cls in enumerate(dets):
         for frame_id, frame in enumerate(det_cls):
             for box_id, box in enumerate(frame):
-                if box[4] >= CONF_THRESH:
+                if box[4] >= CONF_THRESH or not nms_flag:
                     ymin = box[1]
                     xmin = box[0]
                     ymax = box[3]
@@ -256,6 +259,11 @@ def get_labeled_image(image_path, path_to_labels, num_classes, boxes, classes, s
     return image_process
 
 if __name__ == "__main__":
+
+    parser = argparse.ArgumentParser(description = "Yolo_seq-NMS");
+    parser.add_argument('--nms',     type=int,   default=1,    help="If 0 the seq-NSM algorithm won't be apply.");
+    args = parser.parse_args();
+
     # load image
     load_begin=time.time()
     pkllistfile=open(os.path.join('video', 'pkllist.txt'))
@@ -273,7 +281,7 @@ if __name__ == "__main__":
 
     # nms
     nms_begin=time.time()
-    boxes, classes, scores = dsnms(res)
+    boxes, classes, scores = dsnms(res, nms_flag=args.nms)
     nms_end=time.time()
     print 'total nms: {:.4f}s'.format(nms_end - nms_begin)
 
