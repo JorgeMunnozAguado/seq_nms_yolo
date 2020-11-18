@@ -30,7 +30,7 @@ This project combines **YOLOv2**([reference](https://arxiv.org/abs/1506.02640)) 
 
     If you want to use OpenCV set the flag `OpenCV=1`. If you want to use it but don't know how installed https://docs.opencv.org/3.3.1/d7/d9f/tutorial_linux_install.html. If you don't want to use it just set `OpenCV=0`.
 
-1. Copy a video file to the **video folder**. _(We added next videos as examples: `v_HighJump_g03_c04.avi`, `v_MilitaryParade_g09_c03.avi`, `v_SalsaSpin_g03_c02.avi`)_
+1. Copy a video file to the **video folder**. _(We added next videos as examples: `v_ApplyEyeMakeup_g19_c03.avi`, `v_ApplyLipstick_g21_c01.avi`, `v_Archery_g07_c01.avi`, `v_BabyCrawling_g11_c01.avi`, `v_BalanceBeam_g18_c01.avi`)_
 1. In the **video folder**, run `python video2img.py -i input_file` and then run `python get_pkllist.py`.
 1. Return to **root floder** and run `python yolo_seqnms.py` to generate output images in `video/output` folder.
     > From the `label_map_util.py` file in original repository we need to change `tf.gfile.GFil` by `tf.io.gfile.GFile` as the previous function is deprecated.
