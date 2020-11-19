@@ -199,10 +199,10 @@ def deleteLink(dets,links, rootindex, maxpath,thesh):
                     if delete_ind in priorbox:
                         priorbox.remove(delete_ind)
 
-def dsnms(res, nms_flag=True):
+def dsnms(res, nms_flag=True, seq_nms_flag=True):
     dets=createInputs(res)
-    
-    if nms_flag:
+
+    if seq_nms_flag:
 
         links=createLinks(dets)
         maxPath(dets,links)
@@ -261,7 +261,8 @@ def get_labeled_image(image_path, path_to_labels, num_classes, boxes, classes, s
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description = "Yolo_seq-NMS");
-    parser.add_argument('--nms',     type=int,   default=1,    help="If 0 the seq-NSM algorithm won't be apply.");
+    parser.add_argument('--seq_nms',     type=int,   default=1,    help="If 0 the seq-NSM algorithm won't be apply.");
+    parser.add_argument('--nms',     type=int,   default=1,    help="If 0 the NSM algorithm won't be apply.");
     args = parser.parse_args();
 
     # load image
@@ -281,7 +282,7 @@ if __name__ == "__main__":
 
     # nms
     nms_begin=time.time()
-    boxes, classes, scores = dsnms(res, nms_flag=args.nms)
+    boxes, classes, scores = dsnms(res, nms_flag=args.nms, seq_nms_flag=args.seq_nms)
     nms_end=time.time()
     print 'total nms: {:.4f}s'.format(nms_end - nms_begin)
 
